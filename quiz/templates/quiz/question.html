@@ -1,0 +1,44 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+<div class = "question_detail">
+  <div class = "quiz">
+    <!-- <img src="{{article.thumb.url}}"/> -->
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.quiz').forEach(function(button) {
+          button.onclick = () => {
+            document.querySelector('#answer').innerHTML = document.querySelector('input[name="quiz"]:checked').value;
+          }
+        });
+
+        document.querySelector("#quiz").onsubmit = () => {
+          var answer = document.querySelector('input[name="quiz"]:checked').value;
+          var real_answer = "{{quiz.ans}}";
+          if (answer == real_answer) {
+            document.querySelector('#answer').innerHTML = "Correct!";
+          } else {
+            document.querySelector('#answer').innerHTML = "Wrong!";
+          }
+        };
+      });
+    </script>
+
+    <h3> {{quiz.qn}} </h3>
+    <form id="quiz" onsubmit = "return false">
+      <input type="radio" name = "quiz" value="a"> {{quiz.option1}}<br>
+      <input type="radio" name = "quiz" value="b"> {{quiz.option2}}<br>
+      <input type="radio" name = "quiz" value="c"> {{quiz.option3}}<br>
+      <input type="radio" name = "quiz" value="d"> {{quiz.option4}}<br>
+      <input type="radio" name = "quiz" value="e"> {{quiz.option5}}<br>
+
+      <input type="submit" value="Submit"> </button>
+    </form>
+    <br>
+    <h4> Your answer: </h4>
+    <h4 id = 'answer'> </h4>
+  </div>
+</div>
+
+{% endblock %}
