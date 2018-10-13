@@ -112,6 +112,17 @@ def read_csv(fname):
             new.append(row)
     return new
 
+def process_words(words):
+    data = read_csv("data/ipa.csv")
+    dic = {}
+    for row in data:
+        dic[row[0]] = row[1:]
+    result = [data[0]]
+    for w in words.split():
+        if w in dic:
+            result.append([w]+dic[w])
+    return result
+
 def csv_view(request):
     if request.method == "POST":
         form = forms.LoadData(request.POST)
@@ -120,7 +131,7 @@ def csv_view(request):
             response = HttpResponse(content_type = 'text/csv')
             response['Content-Disposition'] = 'attachment; filename="output.csv"'
 
-            #data = process_words(words)
+            data = process_words(words)
             #write("try.csv", data)
             writer = csv.writer(response)
             for row in data:
