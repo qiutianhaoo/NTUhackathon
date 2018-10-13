@@ -6,7 +6,6 @@ import csv, io
 from .models import Data
 import requests
 from django.http import JsonResponse
-from . import Transcription
 from . import PS_Rules
 
 def random_sents(request):
@@ -49,7 +48,7 @@ def transliterate(request):
             src = int(form.cleaned_data['src'])
             dst = int(form.cleaned_data['dst'])
             #result = word
-            result = Transcription.transcribe(word, src, dst)
+            #result = Transcription.transcribe(word, src, dst)
             '''
             response = HttpResponse(content_type = 'text/csv')
             response['Content-Disposition'] = 'attachment; filename="output.csv"'
@@ -144,18 +143,3 @@ def csv_view(request):
 def csv_input(request):
     form = forms.LoadData()
     return render(request, 'data/data_input.html', {'form': form})
-
-'''
-def convert(request):
-    currency = request.form.get("currency")
-    res = requests.get("http://api.fixer.io/latest", params = { "base": "USD", "symbols": currency })
-
-    if res.status_code != 200:
-        return jsonify({"success": False})
-
-    data = res.json()
-    if currency not in data["rates"]:
-        return jsonify({"success": False})
-    else:
-        return jsonify({"success": True, "rate": data["rates"][currency]})
-'''
